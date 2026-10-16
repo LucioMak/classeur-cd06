@@ -6,8 +6,8 @@ android {
     applicationId 'fr.cd06kda.classeur'
     minSdk 24
     targetSdk 34
-    versionCode (project.findProperty('vc') ?: '1') as int
-    versionName "1.${project.findProperty('vc') ?: '1'}"
+    versionCode Integer.parseInt((project.findProperty('vc') ?: '1').toString())
+    versionName '1.' + (project.findProperty('vc') ?: '1').toString()
   }
   signingConfigs {
     release {
