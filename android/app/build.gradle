@@ -19,6 +19,6 @@ android {
   }
   buildTypes { release { minifyEnabled false; signingConfig signingConfigs.release } }
   compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
-  androidResources { noCompress += ['enc','jpg','pdf','js','html'] }
+  androidResources { noCompress 'enc','jpg','pdf' }
 }
 dependencies { implementation 'androidx.webkit:webkit:1.11.0'; implementation 'androidx.core:core:1.13.1' }

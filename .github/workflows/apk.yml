@@ -20,7 +20,16 @@ jobs:
           mkdir -p $W
           cp -r index.html app.enc docs lib icon-192.png icon-512.png apple-touch-icon.png manifest.webmanifest $W/
       - name: Construire
-        run: gradle -p android assembleRelease -Pvc=${{ github.run_number }}
+        run: |
+          set -o pipefail
+          gradle -p android assembleRelease -Pvc=${{ github.run_number }} --stacktrace 2>&1 | tee build.log
+      - name: Journal en cas d'échec
+        if: failure()
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          grep -E "error|What went wrong|FAILURE|Exception|e: " -A4 build.log | head -150 > build-errors.txt || true
+          gh release delete build-log --yes --cleanup-tag || true
+          gh release create build-log build-errors.txt build.log --title "Journal de construction" --notes "échec" --prerelease
       - name: Publier
         env: { GH_TOKEN: '${{ github.token }}' }
         run: |
