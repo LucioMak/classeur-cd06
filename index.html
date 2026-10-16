@@ -30,5 +30,5 @@ document.getElementById('f').addEventListener('submit',async ev=>{ev.preventDefa
  try{const raw=await derive(document.getElementById('k').value.trim());const html=await open_(raw);const s=b64(raw);
   try{sessionStorage.setItem('cd06key',s);if(document.getElementById('rm').checked)localStorage.setItem('cd06key',s)}catch(e){}
   launch(html)}catch(e){E.textContent='Code incorrect.'}});
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+if('serviceWorker' in navigator&&!window.AndroidBridge)navigator.serviceWorker.register('sw.js');
 </script></body></html>
