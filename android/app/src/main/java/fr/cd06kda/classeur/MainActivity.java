@@ -13,6 +13,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import android.print.PrintAttributes;
+import android.print.PrintManager;
+import android.print.PrintDocumentAdapter;
 import androidx.core.content.FileProvider;
 import androidx.webkit.WebViewAssetLoader;
 import java.io.File;
@@ -60,6 +63,13 @@ public class MainActivity extends Activity {
   }
 
   class Bridge {
+    @JavascriptInterface public void print() {
+      runOnUiThread(() -> {
+        PrintManager pm = (PrintManager) getSystemService(PRINT_SERVICE);
+        PrintDocumentAdapter ad = wv.createPrintDocumentAdapter("Classeur CD06");
+        pm.print("Classeur CD06", ad, new PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4).build());
+      });
+    }
     @JavascriptInterface public void openFile(String name, String b64, String mime) {
       try {
         File dir = new File(getCacheDir(), "docs");
